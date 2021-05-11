@@ -1,4 +1,4 @@
-const token = process.env.TOKEN;
+const token = "4b44504f108e536b776989b4691f509191f974bb";
 
 /**
  * @param {Function} callback [required]
