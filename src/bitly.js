@@ -1,7 +1,9 @@
-const token = "4b44504f108e536b776989b4691f509191f974bb";
+const token = process.env.TOKEN;
 
 /**
  * @param {Function} callback [required]
+ * @param {Function} errorCallback [required]
+ * @param {String} url [required]
  */
 
 function shorten(url, callback, errorCallback) {
@@ -16,12 +18,11 @@ function shorten(url, callback, errorCallback) {
   })
     .then((response) => {
       if (!response.ok) {
-        errorCallback(`HTTP error! status: ${response.status}`);
+        errorCallback(`HTTP error! status: ${response.status};`);
       }
       return response.json();
     })
     .then((json) => {
-      console.log(json);
       callback(json.link);
       return json;
     });

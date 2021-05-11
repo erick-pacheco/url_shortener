@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./App.css";
-
 const { shorten } = require("./bitly");
 
 function App() {
@@ -9,60 +8,79 @@ function App() {
     [error, errorCallback] = useState("");
 
   return (
-    <div className="container my-5">
-      <div className="container input-group my-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Long URL"
-          aria-label="Long URL"
-          aria-describedby="url-shortener"
-          value={longUrl}
-          onChange={(e) => {
-            e.preventDefault();
-            setLongUrl(e.target.value);
-          }}
-        />
-        <button
-          className="btn btn-lg btn-primary"
-          type="button"
-          id="url-shortener"
-          onClick={(e) => {
-            e.preventDefault();
-            shorten(longUrl, setShortUrl, errorCallback);
-            setLongUrl("");
-          }}
-        >
-          Shorten ✂️
-        </button>
-
+    <>
+      <div className="container mt-5 " style={{ minHeight: "100vh" }}>
+        <div className="container input-group shadow-black">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Long URL"
+            aria-label="Long URL"
+            aria-describedby="url-shortener"
+            value={longUrl}
+            onChange={(e) => {
+              e.preventDefault();
+              setLongUrl(e.target.value);
+              errorCallback("");
+            }}
+          />
+          <button
+            className="btn btn-lg btn-primary"
+            type="button"
+            id="url-shortener"
+            onClick={(e) => {
+              e.preventDefault();
+              shorten(longUrl, setShortUrl, errorCallback);
+              setLongUrl("");
+            }}
+          >
+            Shorten ✂️
+          </button>
+        </div>
         {
           // display shortend url only if it exists
           shortUrl && (
-            <div className="container card m-4 p-3 bg-info">
-              Copy 📋: {shortUrl}
+            <div className="my-5 p-5 shadow-blue code">
+              Copy 📋:{" "}
+              <a className="link" href={shortUrl}>
+                {shortUrl}
+              </a>
             </div>
           )
         }
-      </div>
-      {
-        // error handling
-        error && (
-          <div className="card bg border border-danger bg-light text-danger p-3 m-3">
-            {error}{" "}
-            <button
-              className="btn btn-sm my-4 btn-danger"
-              onClick={(e) => {
-                e.preventDefault();
-                errorCallback("");
-              }}
-            >
-              CLOSE
-            </button>
+
+        {
+          // error handling
+          error && (
+            <div className="card bg border border-danger bg-light text-danger p-3 m-3">
+              {error}{" "}
+              <button
+                className="btn btn-sm my-4 btn-danger"
+                onClick={(e) => {
+                  e.preventDefault();
+                  errorCallback("");
+                }}
+              >
+                CLOSE
+              </button>
+            </div>
+          )
+        }
+
+        <footer class="footer mt-5 py-3 bg-light">
+          <div class="container">
+            <span class="text-muted">
+              Typed with ❤️ and{" "}
+              <spa style={{ color: "#F0DB4F" }} class="font-weight-bold">
+                JS
+              </spa>{" "}
+              somewhere in Boston 👽 by{" "}
+              <a href="https://github.com/erick-pacheco">Erick Pacheco</a>.
+            </span>
           </div>
-        )
-      }
-    </div>
+        </footer>
+      </div>
+    </>
   );
 }
 
