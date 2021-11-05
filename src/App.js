@@ -5,11 +5,18 @@ const { shorten } = require("./bitly");
 function App() {
   const [longUrl, setLongUrl] = useState(""),
     [shortUrl, setShortUrl] = useState(null),
-    [error, errorCallback] = useState("");
+    [error, errorCallback] = useState(""),
+    copyToClipBoard = () => async () => {
+      await navigator.clipboard.writeText(shortUrl);
+      alert("Text copied");
+    };
 
   return (
     <>
       <div className="container mt-5 " style={{ minHeight: "100vh" }}>
+        <h1 className="text-primary my-5">
+          <strong>URL.SHORTNER</strong>
+        </h1>
         <div className="container input-group shadow-black">
           <input
             type="text"
@@ -28,10 +35,11 @@ function App() {
             className="btn btn-lg btn-primary"
             type="button"
             id="url-shortener"
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
               shorten(longUrl, setShortUrl, errorCallback);
               setLongUrl("");
+              return copyToClipBoard(shortUrl);
             }}
           >
             Shorten ✂️
@@ -41,7 +49,7 @@ function App() {
           // display shortend url only if it exists
           shortUrl && (
             <div className="my-5 p-5 shadow-blue code">
-              Copy 📋:{" "}
+              Copy Short URL! 📋:{" "}
               <a className="link" href={shortUrl}>
                 {shortUrl}
               </a>
